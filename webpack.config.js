@@ -54,6 +54,7 @@ module.exports = (env, options) => {
       open: true,
       static: { directory: path.join(__dirname, "public") },
       port: 3000,
+      historyApiFallback: true,
     },
     resolve: {
       extensions: [".js", ".ts", ".tsx"],

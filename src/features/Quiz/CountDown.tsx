@@ -1,11 +1,7 @@
-import { useEffect, useState } from "react";
+interface Props {
+  count: number;
+}
 
-export default function Component() {
-  const [count, setCount] = useState(3);
-  useEffect(() => {
-    setTimeout(() => setCount(2), 1000);
-    setTimeout(() => setCount(1), 2000);
-    setTimeout(() => setCount(0), 3000);
-  }, []);
+export default function Component({ count }: Props) {
   return <div>{count}</div>;
 }
