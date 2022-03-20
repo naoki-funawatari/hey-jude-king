@@ -1,11 +1,14 @@
-const path = require("path");
-const HtmlWebpackPlugin = require("html-webpack-plugin");
-const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-const CssMinimizer = require("css-minimizer-webpack-plugin");
-const TerserWebpack = require("terser-webpack-plugin");
+import path from "path";
+import url from "url";
+import HtmlWebpackPlugin from "html-webpack-plugin";
+import MiniCssExtractPlugin from "mini-css-extract-plugin";
+import CssMinimizer from "css-minimizer-webpack-plugin";
+import TerserWebpack from "terser-webpack-plugin";
 
 // https://webpack.js.org/configuration/mode/#mode-none
-module.exports = (env, options) => {
+export default (env, options) => {
+  const __filename = url.fileURLToPath(import.meta.url);
+  const __dirname = path.dirname(__filename);
   const htmlWebpackPlugin = new HtmlWebpackPlugin({
     template: path.join(__dirname, "public", "index.html"),
   });
