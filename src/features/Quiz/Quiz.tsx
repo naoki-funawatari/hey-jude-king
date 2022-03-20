@@ -1,34 +1,23 @@
-import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 import CountDown from "@/features/Quiz/CountDown";
+import { useCountDown, useQuiz } from "@/features/Quiz/hooks";
 
-const useCountDown = () => {
-  const [count, setCount] = useState(3);
-  useEffect(() => {
-    setTimeout(() => setCount(2), 1000);
-    setTimeout(() => setCount(1), 2000);
-    setTimeout(() => setCount(0), 3000);
-  }, []);
-
-  return { isLoading: !!count, count };
-};
-
-export default function Component() {
-  const navigate = useNavigate();
+export default function () {
   const { isLoading, count } = useCountDown();
+  const quiz = useQuiz();
+
+  if (isLoading) {
+    return <CountDown {...{ count }} />;
+  }
 
   return (
     <div>
       <h1>クイズページ</h1>
-      {isLoading ? (
-        <CountDown {...{ count }} />
-      ) : (
-        <div>
-          <button onClick={() => navigate("/results")}>選択肢①</button>
-          <button onClick={() => navigate("/results")}>選択肢②</button>
-          <button onClick={() => navigate("/results")}>選択肢③</button>
-        </div>
-      )}
+      <p>{quiz.item.statement}</p>
+      {quiz.item.choices.map(o => (
+        <button key={o} onClick={() => quiz.next()}>
+          {o}
+        </button>
+      ))}
     </div>
   );
 }

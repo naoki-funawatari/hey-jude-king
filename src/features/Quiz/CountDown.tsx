@@ -2,6 +2,6 @@ interface Props {
   count: number;
 }
 
-export default function Component({ count }: Props) {
+export default function ({ count }: Props) {
   return <div>{count}</div>;
 }
