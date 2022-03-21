@@ -1,7 +1,7 @@
 import { Routes, Route } from "react-router-dom";
-import Top from "@/features/Top/Top";
-import Quiz from "@/features/Quiz/Quiz";
-import Results from "@/features/Results/Results";
+import Top from "@/features/top/Top";
+import Quiz from "@/features/quiz/Quiz";
+import Results from "@/features/results/Results";
 
 export default function () {
   return (

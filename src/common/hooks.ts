@@ -1,7 +1,7 @@
 import { useState, useEffect, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import { useRecoilValue, useRecoilState, useResetRecoilState } from "recoil";
-import { quizListStore, correctCountStore } from "@/features/Quiz/stores";
+import { quizListStore, correctCountStore } from "@/common/stores";
 
 export const useCountDown = () => {
   const [count, setCount] = useState(3);

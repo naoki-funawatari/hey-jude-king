@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
-import { useCountDown, useQuiz, useCorrectCount } from "@/features/Quiz/hooks";
-import CountDown from "@/features/Quiz/CountDown";
+import { useCountDown, useQuiz, useCorrectCount } from "@/common/hooks";
+import CountDown from "@/features/quiz/CountDown";
 
 export default function () {
   const [message, setMessage] = useState("");

@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { useCorrectCount } from "@/features/Quiz/hooks";
+import { useCorrectCount } from "@/common/hooks";
 
 export default function () {
   const navigate = useNavigate();
