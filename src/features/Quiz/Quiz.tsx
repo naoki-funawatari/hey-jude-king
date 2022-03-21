@@ -13,7 +13,7 @@ export default function () {
     <div>
       <h1>クイズページ</h1>
       <p>{quiz.item.statement}</p>
-      {quiz.item.choices.map(o => (
+      {quiz.choices.map(o => (
         <button key={o} onClick={() => quiz.next()}>
           {o}
         </button>

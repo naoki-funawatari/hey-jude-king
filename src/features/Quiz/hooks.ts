@@ -24,7 +24,15 @@ export const useQuiz = () => {
         : setIndex(state => state + 1);
     };
 
-    return { item, next };
+    const anotherAnswers = [
+      ...new Set(list.map(o => o.answer).filter(o => o !== item.answer)),
+    ];
+    const answer1 = anotherAnswers.splice(rnd(anotherAnswers.length), 1)[0];
+    const answer2 = anotherAnswers.splice(rnd(anotherAnswers.length), 1)[0];
+    const choices = [item.answer, answer1, answer2];
+    srt(choices);
+
+    return { item, choices, next };
   }, [index]);
 };
 
@@ -32,51 +40,37 @@ const list = [
   {
     statement: "question 1",
     answer: "選択肢①",
-    choices: ["選択肢①", "選択肢②", "選択肢③"],
   },
   {
     statement: "question 2",
     answer: "選択肢②",
-    choices: ["選択肢①", "選択肢②", "選択肢③"],
   },
   {
     statement: "question 3",
     answer: "選択肢③",
-    choices: ["選択肢①", "選択肢②", "選択肢③"],
   },
   {
     statement: "question 4",
-    answer: "選択肢①",
-    choices: ["選択肢①", "選択肢②", "選択肢③"],
+    answer: "選択肢④",
   },
   {
     statement: "question 5",
-    answer: "選択肢②",
-    choices: ["選択肢①", "選択肢②", "選択肢③"],
+    answer: "選択肢⑤",
   },
   {
     statement: "question 6",
-    answer: "選択肢③",
-    choices: ["選択肢①", "選択肢②", "選択肢③"],
+    answer: "選択肢⑥",
   },
 ];
 
-// const answers1 = [...list].map(o => o.answer);
-// const answers2 = answers1.filter(o => o !== item.answer);
-// const answers3 = [...new Set(answers2)];
-// const choices1 = [item.answer];
-// choices1.push(answers3.splice(r(answers3.length))[0]);
-// choices1.push(answers3.splice(r(answers3.length))[0]);
-// const choices2 = s(choices1);
+const rnd = (len: number) => Math.floor(Math.random() * len);
+const srt = (list: string[]) => {
+  for (let i = list.length - 1; 0 < i; i--) {
+    const j = rnd(i + 1);
+    let item = list[i];
+    list[i] = list[j];
+    list[j] = item;
+  }
 
-// const r = (length: number) => Math.floor(Math.random() * length);
-// const s = (list: string[]) => {
-//   for (let i = list.length - 1; i > 0; i--) {
-//     let r = Math.floor(Math.random() * (i + 1));
-//     let tmp = list[i];
-//     list[i] = list[r];
-//     list[r] = tmp;
-//   }
-
-//   return list;
-// };
+  return list;
+};
