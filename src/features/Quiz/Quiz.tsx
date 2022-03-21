@@ -1,8 +1,9 @@
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useCountDown, useQuiz, useCorrectCount } from "@/features/Quiz/hooks";
 import CountDown from "@/features/Quiz/CountDown";
 
 export default function () {
+  const [message, setMessage] = useState("");
   const { isLoading, count } = useCountDown();
   const quiz = useQuiz();
   const correctCount = useCorrectCount();
@@ -10,6 +11,9 @@ export default function () {
     const value = (e.target as HTMLButtonElement).value;
     if (quiz.item.answer === value) {
       correctCount.increment();
+      setMessage("正解です！");
+    } else {
+      setMessage("不正解です！");
     }
 
     quiz.next();
@@ -30,6 +34,7 @@ export default function () {
           {o}
         </button>
       ))}
+      <p>{message}</p>
     </div>
   );
 }
