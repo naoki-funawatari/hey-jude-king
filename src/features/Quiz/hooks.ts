@@ -1,5 +1,7 @@
 import { useState, useEffect, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
+import { useRecoilValue, useRecoilState, useResetRecoilState } from "recoil";
+import { quizListStore, correctCountStore } from "@/features/Quiz/stores";
 
 export const useCountDown = () => {
   const [count, setCount] = useState(3);
@@ -15,6 +17,7 @@ export const useCountDown = () => {
 export const useQuiz = () => {
   const navigate = useNavigate();
   const [index, setIndex] = useState(0);
+  const list = useRecoilValue(quizListStore);
 
   return useMemo(() => {
     const item = list[index];
@@ -36,32 +39,12 @@ export const useQuiz = () => {
   }, [index]);
 };
 
-const list = [
-  {
-    statement: "question 1",
-    answer: "選択肢①",
-  },
-  {
-    statement: "question 2",
-    answer: "選択肢②",
-  },
-  {
-    statement: "question 3",
-    answer: "選択肢③",
-  },
-  {
-    statement: "question 4",
-    answer: "選択肢④",
-  },
-  {
-    statement: "question 5",
-    answer: "選択肢⑤",
-  },
-  {
-    statement: "question 6",
-    answer: "選択肢⑥",
-  },
-];
+export const useCorrectCount = () => {
+  const [correctCount, setCorrectCount] = useRecoilState(correctCountStore);
+  const reset = useResetRecoilState(correctCountStore);
+  const increment = () => setCorrectCount(state => state + 1);
+  return { value: correctCount, increment, reset };
+};
 
 const rnd = (len: number) => Math.floor(Math.random() * len);
 const srt = (list: string[]) => {
