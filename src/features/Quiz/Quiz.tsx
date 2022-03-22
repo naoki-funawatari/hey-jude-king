@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useCountDown, useQuiz, useCorrectCount } from "@/common/hooks";
+import Button from "@/components/Button";
 import CountDown from "@/features/quiz/CountDown";
 
 export default function () {
@@ -30,9 +31,9 @@ export default function () {
       <h1>クイズページ</h1>
       <p>{quiz.item.statement}</p>
       {quiz.choices.map(o => (
-        <button key={o} value={o} onClick={handleOptionClicked}>
+        <Button key={o} value={o} onClick={handleOptionClicked}>
           {o}
-        </button>
+        </Button>
       ))}
       <p>{message}</p>
     </div>

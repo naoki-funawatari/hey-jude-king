@@ -1,4 +1,5 @@
 import { useNavigate } from "react-router-dom";
+import Button from "@/components/Button";
 
 export default function () {
   const navigate = useNavigate();
@@ -7,7 +8,7 @@ export default function () {
     <div>
       <h1>トップページ</h1>
       <div>
-        <button onClick={() => navigate("/quiz")}>開始する</button>
+        <Button onClick={() => navigate("/quiz")}>開始する</Button>
       </div>
     </div>
   );

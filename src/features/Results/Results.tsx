@@ -1,5 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { useCorrectCount } from "@/common/hooks";
+import Button from "@/components/Button";
 
 export default function () {
   const navigate = useNavigate();
@@ -10,8 +11,8 @@ export default function () {
       <h1>結果ページ</h1>
       <p>{correctCount.value} 問正解です！</p>
       <div>
-        <button onClick={() => navigate("/")}>トップへ戻る</button>
-        <button onClick={() => navigate("/quiz")}>リトライする</button>
+        <Button onClick={() => navigate("/")}>トップへ戻る</Button>
+        <Button onClick={() => navigate("/quiz")}>リトライする</Button>
       </div>
     </div>
   );
