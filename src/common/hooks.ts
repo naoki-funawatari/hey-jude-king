@@ -1,6 +1,9 @@
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useMemo, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { useRecoilValue, useRecoilState, useResetRecoilState } from "recoil";
+import dayjs from "dayjs";
+import utc from "dayjs/plugin/utc";
+import timezone from "dayjs/plugin/timezone";
 import { quizListStore, correctCountStore } from "@/common/stores";
 
 export const useCountDown = () => {
@@ -12,6 +15,66 @@ export const useCountDown = () => {
   }, []);
 
   return { isLoading: !!count, count };
+};
+
+// https://www.wakuwakubank.com/posts/743-javascript-dayjs/#%E4%BB%96%E3%81%AE%E6%97%A5%E6%99%82%E3%81%A8%E3%81%AE%E5%B7%AE%E5%88%86br-diff
+export const useStopWatch = () => {
+  // settings
+  dayjs.extend(utc);
+  dayjs.extend(timezone);
+  dayjs.tz.setDefault("Asia/Tokyo");
+  // logics
+  const [elapsed, setElapsed] = useState({
+    start: Date.now(),
+    total: 0,
+    partial: 0,
+  });
+  const [tzDate, setTzDate] = useState(dayjs(0));
+  const timer = useRef<NodeJS.Timeout | undefined>(undefined);
+  const start = () => {
+    if (timer.current) {
+      return;
+    }
+
+    const startTime = Date.now();
+    timer.current = setInterval(() => {
+      setElapsed(state => ({
+        ...state,
+        start: startTime,
+        partial: Date.now() - startTime,
+      }));
+    }, 33);
+  };
+  const stop = () => {
+    if (timer.current) {
+      clearInterval(timer.current);
+    }
+
+    timer.current = undefined;
+    setElapsed(state => ({
+      start: Date.now(),
+      total: state.total + state.partial,
+      partial: 0,
+    }));
+  };
+  const reset = () => {
+    if (timer.current) {
+      clearInterval(timer.current);
+    }
+
+    timer.current = undefined;
+    setElapsed({ start: Date.now(), total: 0, partial: 0 });
+  };
+
+  useEffect(() => setTzDate(dayjs(elapsed.total + elapsed.partial)), [elapsed]);
+
+  return {
+    start,
+    stop,
+    reset,
+    elapsed,
+    time: tzDate.utc().format("mm:ss.SSS"),
+  };
 };
 
 export const useQuiz = () => {
@@ -50,7 +113,7 @@ const rnd = (len: number) => Math.floor(Math.random() * len);
 const srt = (list: string[]) => {
   for (let i = list.length - 1; 0 < i; i--) {
     const j = rnd(i + 1);
-    let item = list[i];
+    const item = list[i];
     list[i] = list[j];
     list[j] = item;
   }
