@@ -4,6 +4,7 @@ import HtmlWebpackPlugin from "html-webpack-plugin";
 import MiniCssExtractPlugin from "mini-css-extract-plugin";
 import CssMinimizer from "css-minimizer-webpack-plugin";
 import TerserWebpack from "terser-webpack-plugin";
+import ESLintPlugin from "eslint-webpack-plugin";
 
 // https://webpack.js.org/configuration/mode/#mode-none
 export default (env, options) => {
@@ -12,11 +13,13 @@ export default (env, options) => {
   const htmlWebpackPlugin = new HtmlWebpackPlugin({
     template: path.join(__dirname, "public", "index.html"),
   });
+  const esLintPlugin = new ESLintPlugin({ extensions: ["ts", "tsx"] });
   // https://webpack.js.org/configuration/mode/#mode-none
   const devMode = options.mode !== "production";
   const styleLoader = devMode ? "style-loader" : MiniCssExtractPlugin.loader;
   const plugins = [];
   plugins.push(htmlWebpackPlugin);
+  plugins.push(esLintPlugin);
   if (!devMode) {
     // https://webpack.js.org/plugins/mini-css-extract-plugin/
     plugins.push(new MiniCssExtractPlugin());
