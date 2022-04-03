@@ -34,3 +34,12 @@ export const correctCountStore = atom({
   key: "correctCountStore",
   default: 0,
 });
+
+export const elapsedStore = atom({
+  key: "elapsedStore",
+  default: {
+    start: 0,
+    total: 0,
+    partial: 0,
+  },
+});

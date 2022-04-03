@@ -4,7 +4,11 @@ import { useRecoilValue, useRecoilState, useResetRecoilState } from "recoil";
 import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
 import timezone from "dayjs/plugin/timezone";
-import { quizListStore, correctCountStore } from "@/common/stores";
+import {
+  quizListStore,
+  correctCountStore,
+  elapsedStore,
+} from "@/common/stores";
 
 export const useCountDown = () => {
   const [count, setCount] = useState(3);
@@ -24,11 +28,7 @@ export const useStopWatch = () => {
   dayjs.extend(timezone);
   dayjs.tz.setDefault("Asia/Tokyo");
   // logics
-  const [elapsed, setElapsed] = useState({
-    start: Date.now(),
-    total: 0,
-    partial: 0,
-  });
+  const [elapsed, setElapsed] = useRecoilState(elapsedStore);
   const [tzDate, setTzDate] = useState(dayjs(0));
   const timer = useRef<NodeJS.Timeout | undefined>(undefined);
   const start = () => {
