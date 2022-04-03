@@ -2,7 +2,7 @@ import { useNavigate } from "react-router-dom";
 import { useCorrectCount } from "@/common/hooks";
 import Button from "@/components/Button";
 
-export default function () {
+export default function Results() {
   const navigate = useNavigate();
   const correctCount = useCorrectCount();
 
