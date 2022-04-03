@@ -3,7 +3,7 @@ import Top from "@/features/top/Top";
 import Quiz from "@/features/quiz/Quiz";
 import Results from "@/features/results/Results";
 
-export default function () {
+export default function App() {
   return (
     <Routes>
       <Route path="/" element={<Top />} />

@@ -6,6 +6,6 @@ interface Props {
   onClick?: (e: MouseEvent) => void;
 }
 
-export default function ({ children, value, onClick }: Props) {
+export default function Button({ children, value, onClick }: Props) {
   return <button {...{ value, onClick }}>{children}</button>;
 }

@@ -3,7 +3,7 @@ import { useCountDown, useQuiz, useCorrectCount } from "@/common/hooks";
 import Button from "@/components/Button";
 import CountDown from "@/features/quiz/CountDown";
 
-export default function () {
+export default function Quiz() {
   const [message, setMessage] = useState("");
   const { isLoading, count } = useCountDown();
   const quiz = useQuiz();
