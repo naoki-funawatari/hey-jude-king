@@ -2,6 +2,7 @@ import { Routes, Route } from "react-router-dom";
 import Top from "@/features/top/Top";
 import Quiz from "@/features/quiz/Quiz";
 import Results from "@/features/results/Results";
+import StopWatch from "@/features/stopwatch/StopWatch";
 
 export default function App() {
   return (
@@ -9,6 +10,7 @@ export default function App() {
       <Route path="/" element={<Top />} />
       <Route path="/quiz" element={<Quiz />} />
       <Route path="/results" element={<Results />} />
+      <Route path="/stopwatch" element={<StopWatch />} />
     </Routes>
   );
 }
