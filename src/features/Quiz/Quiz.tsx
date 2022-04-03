@@ -29,7 +29,7 @@ export default function Quiz() {
   return (
     <div>
       <h1>クイズページ</h1>
-      <p>{quiz.item.statement}</p>
+      <Elapsed />
       {quiz.choices.map(o => (
         <Button key={o} value={o} onClick={handleOptionClicked}>
           {o}
