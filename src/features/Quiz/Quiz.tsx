@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useCountDown, useQuiz, useCorrectCount } from "@/common/hooks";
-import Button from "@/components/Button";
 import CountDown from "@/features/quiz/CountDown";
+import Elapsed from "@/features/quiz/Elapsed";
 
 export default function Quiz() {
   const [message, setMessage] = useState("");
@@ -31,9 +31,9 @@ export default function Quiz() {
       <h1>クイズページ</h1>
       <Elapsed />
       {quiz.choices.map(o => (
-        <Button key={o} value={o} onClick={handleOptionClicked}>
+        <button key={o} value={o} onClick={handleOptionClicked}>
           {o}
-        </Button>
+        </button>
       ))}
       <p>{message}</p>
     </div>
