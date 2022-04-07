@@ -18,6 +18,7 @@ module.exports = {
     sourceType: "module",
   },
   plugins: ["react", "@typescript-eslint"],
+  // https://chaika.hatenablog.com/entry/2020/12/04/083000
   rules: { "react/react-in-jsx-scope": "off" },
   settings: {
     react: {
