@@ -7,6 +7,7 @@ export default function Elapsed() {
     stopWatch.reset();
     stopWatch.start();
     return () => stopWatch.stop();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return <p>{stopWatch.time}</p>;

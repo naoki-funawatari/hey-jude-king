@@ -20,6 +20,7 @@ export default function Quiz() {
     quiz.next();
   };
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => correctCount.reset(), []);
 
   if (isLoading) {

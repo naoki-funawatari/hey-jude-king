@@ -29,6 +29,7 @@ export const useStopWatch = () => {
   dayjs.tz.setDefault("Asia/Tokyo");
   // logics
   const [elapsed, setElapsed] = useRecoilState(elapsedStore);
+  const restElapsed = useResetRecoilState(elapsedStore);
   const [tzDate, setTzDate] = useState(dayjs(0));
   const timer = useRef<NodeJS.Timeout | undefined>(undefined);
   const start = () => {
@@ -63,7 +64,7 @@ export const useStopWatch = () => {
     }
 
     timer.current = undefined;
-    setElapsed({ start: Date.now(), total: 0, partial: 0 });
+    restElapsed();
   };
 
   useEffect(() => setTzDate(dayjs(elapsed.total + elapsed.partial)), [elapsed]);
@@ -99,7 +100,7 @@ export const useQuiz = () => {
     srt(choices);
 
     return { item, choices, next };
-  }, [index]);
+  }, [index, list, navigate]);
 };
 
 export const useCorrectCount = () => {
