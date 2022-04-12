@@ -22,14 +22,17 @@ export default (env, options) => {
   plugins.push(esLintPlugin);
   if (!devMode) {
     // https://webpack.js.org/plugins/mini-css-extract-plugin/
-    plugins.push(new MiniCssExtractPlugin());
+    plugins.push(
+      new MiniCssExtractPlugin({ filename: `main.${new Date().getTime()}.css` })
+    );
   }
 
   return {
     entry: path.join(__dirname, "src", "index.tsx"),
     output: {
+      clean: true,
       path: path.join(__dirname, "build"),
-      filename: "main.js",
+      filename: `main.${new Date().getTime()}.js`,
     },
     module: {
       rules: [
