@@ -42,7 +42,7 @@ export default (env, options) => {
             },
             {
               loader: "ts-loader",
-              options: { configFile: path.resolve(__dirname, "tsconfig.json") },
+              options: { configFile: path.join(__dirname, "tsconfig.json") },
             },
           ],
         },
@@ -65,7 +65,7 @@ export default (env, options) => {
     },
     resolve: {
       extensions: [".js", ".ts", ".tsx"],
-      alias: { "@": path.resolve(__dirname, "src") },
+      alias: { "@": path.join(__dirname, "src") },
     },
     target: "web",
     stats: "normal",
