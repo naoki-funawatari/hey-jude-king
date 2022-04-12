@@ -5,9 +5,10 @@ import Elapsed from "@/features/quiz/Elapsed";
 
 export default function Quiz() {
   const [message, setMessage] = useState("");
-  const { isLoading, count } = useCountDown();
-  const quiz = useQuiz();
+  const countDown = useCountDown();
   const correctCount = useCorrectCount();
+  const quiz = useQuiz();
+
   const handleOptionClicked = (e: React.MouseEvent) => {
     const value = (e.target as HTMLButtonElement).value;
     if (quiz.item.answer === value) {
@@ -20,11 +21,19 @@ export default function Quiz() {
     quiz.next();
   };
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  useEffect(() => correctCount.reset(), []);
+  useEffect(() => {
+    countDown.set(3);
+    countDown.start();
+    correctCount.reset();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
-  if (isLoading) {
-    return <CountDown {...{ count }} />;
+  if (!countDown.isReady) {
+    return <></>;
+  }
+
+  if (countDown.isCountingDown) {
+    return <CountDown {...countDown} />;
   }
 
   return (

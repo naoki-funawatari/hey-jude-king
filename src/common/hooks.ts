@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo, useRef } from "react";
+import { useState, useEffect, useRef, useMemo, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import { useRecoilValue, useRecoilState, useResetRecoilState } from "recoil";
 import dayjs from "dayjs";
@@ -11,14 +11,38 @@ import {
 } from "@/common/stores";
 
 export const useCountDown = () => {
-  const [count, setCount] = useState(3);
-  useEffect(() => {
-    setTimeout(() => setCount(2), 1000);
-    setTimeout(() => setCount(1), 2000);
-    setTimeout(() => setCount(0), 3000);
+  const [isReady, setIsReady] = useState<boolean>(false);
+  const [isCountingDown, setIsCountingDown] = useState<boolean>(false);
+  const [count, setCount] = useState<number | undefined>(undefined);
+  const countRef = useRef<number | undefined>(undefined);
+  const set = useCallback((value: number) => {
+    setIsReady(true);
+    setIsCountingDown(false);
+    setCount(value);
+    countRef.current = value;
+  }, []);
+  const start = useCallback(() => {
+    setIsCountingDown(true);
+    countDown();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+  const countDown = useCallback(() => {
+    if (countRef.current === undefined) {
+      return;
+    }
+
+    if (countRef.current > 0) {
+      setTimeout(() => {
+        setCount(state => (state ? state - 1 : 0));
+        countRef.current = countRef.current ? countRef.current - 1 : 0;
+        countDown();
+      }, 1000);
+    } else {
+      setIsCountingDown(false);
+    }
   }, []);
 
-  return { isLoading: !!count, count };
+  return { isReady, isCountingDown, count: count ?? 0, set, start };
 };
 
 // https://www.wakuwakubank.com/posts/743-javascript-dayjs/#%E4%BB%96%E3%81%AE%E6%97%A5%E6%99%82%E3%81%A8%E3%81%AE%E5%B7%AE%E5%88%86br-diff
