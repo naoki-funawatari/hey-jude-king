@@ -53,7 +53,7 @@ export const useStopWatch = () => {
   dayjs.tz.setDefault("Asia/Tokyo");
   // logics
   const [elapsed, setElapsed] = useRecoilState(elapsedStore);
-  const restElapsed = useResetRecoilState(elapsedStore);
+  const resetElapsed = useResetRecoilState(elapsedStore);
   const [tzDate, setTzDate] = useState(dayjs(0));
   const timer = useRef<NodeJS.Timeout | undefined>(undefined);
   const start = () => {
@@ -88,7 +88,7 @@ export const useStopWatch = () => {
     }
 
     timer.current = undefined;
-    restElapsed();
+    resetElapsed();
   };
 
   useEffect(() => setTzDate(dayjs(elapsed.total + elapsed.partial)), [elapsed]);
