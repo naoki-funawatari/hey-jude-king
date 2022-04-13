@@ -56,7 +56,7 @@ export const useStopWatch = () => {
   const resetElapsed = useResetRecoilState(elapsedStore);
   const [tzDate, setTzDate] = useState(dayjs(0));
   const timer = useRef<NodeJS.Timeout | undefined>(undefined);
-  const start = () => {
+  const start = useCallback(() => {
     if (timer.current) {
       return;
     }
@@ -69,8 +69,9 @@ export const useStopWatch = () => {
         partial: Date.now() - startTime,
       }));
     }, 33);
-  };
-  const stop = () => {
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+  const stop = useCallback(() => {
     if (timer.current) {
       clearInterval(timer.current);
     }
@@ -81,15 +82,17 @@ export const useStopWatch = () => {
       total: state.total + state.partial,
       partial: 0,
     }));
-  };
-  const reset = () => {
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+  const reset = useCallback(() => {
     if (timer.current) {
       clearInterval(timer.current);
     }
 
     timer.current = undefined;
     resetElapsed();
-  };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   useEffect(() => setTzDate(dayjs(elapsed.total + elapsed.partial)), [elapsed]);
 
@@ -106,6 +109,8 @@ export const useQuiz = () => {
   const navigate = useNavigate();
   const [index, setIndex] = useState(0);
   const list = useRecoilValue(quizListStore);
+  const random = useRandom();
+  const shuffle = useShuffle();
 
   return useMemo(() => {
     const item = list[index];
@@ -118,30 +123,44 @@ export const useQuiz = () => {
     const anotherAnswers = [
       ...new Set(list.map(o => o.answer).filter(o => o !== item.answer)),
     ];
-    const answer1 = anotherAnswers.splice(rnd(anotherAnswers.length), 1)[0];
-    const answer2 = anotherAnswers.splice(rnd(anotherAnswers.length), 1)[0];
+    const answer1 = anotherAnswers.splice(
+      random.generate(anotherAnswers.length),
+      1
+    )[0];
+    const answer2 = anotherAnswers.splice(
+      random.generate(anotherAnswers.length),
+      1
+    )[0];
     const choices = [item.answer, answer1, answer2];
-    srt(choices);
+    shuffle.execute(choices);
 
     return { item, choices, next };
-  }, [index, list, navigate]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [index]);
 };
 
 export const useCorrectCount = () => {
   const [correctCount, setCorrectCount] = useRecoilState(correctCountStore);
   const reset = useResetRecoilState(correctCountStore);
-  const increment = () => setCorrectCount(state => state + 1);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const increment = useCallback(() => setCorrectCount(state => state + 1), []);
   return { value: correctCount, increment, reset };
 };
 
-const rnd = (len: number) => Math.floor(Math.random() * len);
-const srt = (list: string[]) => {
-  for (let i = list.length - 1; 0 < i; i--) {
-    const j = rnd(i + 1);
-    const item = list[i];
-    list[i] = list[j];
-    list[j] = item;
-  }
+const useRandom = () => {
+  const generate = (value: number) => Math.floor(Math.random() * value);
+  return { generate };
+};
 
-  return list;
+const useShuffle = () => {
+  const random = useRandom();
+  const execute = (list: string[]) => {
+    for (let i = list.length - 1; 0 < i; i--) {
+      const j = random.generate(i + 1);
+      const item = list[i];
+      list[i] = list[j];
+      list[j] = item;
+    }
+  };
+  return { execute };
 };
